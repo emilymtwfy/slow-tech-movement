@@ -1,0 +1,36 @@
+import React, { useState } from 'react';
+import { storage, ref, uploadBytes, getDownloadURL } from '../firebase';
+import { sendLetter } from '../resend';
+
+const LetterForm = () => {
+  const [file, setFile] = useState(null);
+  const [recipient, setRecipient] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!file) return;
+
+    setStatus('Uploading letter...');
+    const fileRef = ref(storage, `letters/${file.name}`);
+    await uploadBytes(fileRef, file);
+    const url = await getDownloadURL(fileRef);
+
+    setStatus('Sending email...');
+    const res = await sendLetter({ imageUrl: url, recipientEmail: recipient, message });
+    setStatus(res.success ? 'Sent!' : 'Failed to send');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} required />
+      <input type="email" placeholder="Recipient Email" value={recipient} onChange={(e) => setRecipient(e.target.value)} required />
+      <textarea placeholder="Optional message" value={message} onChange={(e) => setMessage(e.target.value)} />
+      <button type="submit">Send Letter</button>
+      <p>{status}</p>
+    </form>
+  );
+};
+
+export default LetterForm;
