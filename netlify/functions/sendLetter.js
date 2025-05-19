@@ -2,10 +2,16 @@ const Resend = require('resend');
 const resend = new Resend(process.env.VITE_RESEND_API_KEY);
 
 exports.handler = async (event) => {
-  const { imageUrl, recipientEmail, message } = JSON.parse(event.body);
-
   try {
-    await resend.emails.send({
+    const { imageUrl, recipientEmail, message } = JSON.parse(event.body);
+
+    console.log("Email send request received:", {
+      imageUrl,
+      recipientEmail,
+      message,
+    });
+
+    const result = await resend.emails.send({
       from: 'letters@yourdomain.com',
       to: recipientEmail,
       subject: 'You have received a handwritten letter',
@@ -16,8 +22,17 @@ exports.handler = async (event) => {
       `,
     });
 
-    return { statusCode: 200, body: JSON.stringify({ success: true }) };
+    console.log("Resend response:", result);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ success: true }),
+    };
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ success: false, error: err.message }) };
+    console.error("Function error:", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ success: false, error: err.message }),
+    };
   }
 };
