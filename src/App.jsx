@@ -1,5 +1,5 @@
 import React from 'react';
-import LetterForm from './components/LetterForm';
+import LetterForm from './components/LetterForm.jsx';
 
 function App() {
   return (
