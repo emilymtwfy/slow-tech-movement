@@ -1,0 +1,40 @@
+.letter-form {
+  max-width: 480px;
+  margin: 4rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+}
+
+.letter-form input,
+.letter-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.letter-form button {
+  width: 100%;
+  background-color: #2d6cdf;
+  color: white;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.letter-form button:hover {
+  background-color: #1a4fb9;
+}
+
+.letter-form p {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #444;
+}
