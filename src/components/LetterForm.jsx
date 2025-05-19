@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './LetterForm.css';
 import { storage, ref, uploadBytes, getDownloadURL } from '../firebase';
 import { sendLetter } from '../resend';
 
@@ -23,7 +24,8 @@ const LetterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    
+    <form onSubmit={handleSubmit} className="letter-form">
       <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} required />
       <input type="email" placeholder="Recipient Email" value={recipient} onChange={(e) => setRecipient(e.target.value)} required />
       <textarea placeholder="Optional message" value={message} onChange={(e) => setMessage(e.target.value)} />
