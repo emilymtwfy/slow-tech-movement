@@ -13,7 +13,7 @@ exports.handler = async (event) => {
     });
 
     const result = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'letters@slowtechmovement.com',
       to: recipientEmail,
       subject: 'You have received a handwritten letter',
       html: `
