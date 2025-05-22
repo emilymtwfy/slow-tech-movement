@@ -5,6 +5,13 @@
   text-align: center;
 }
 
+body {
+  background-color: white;
+  color: black;
+  font-family: sans-serif;
+}
+
+
 .logo {
   height: 6em;
   padding: 1.5em;
