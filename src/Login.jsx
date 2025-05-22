@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from './firebase';
+import './Login.css';
+
 
 const Login = ({ onLogin }) => {
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
@@ -26,6 +28,12 @@ const Login = ({ onLogin }) => {
   return (
     <form onSubmit={handleSubmit} className="letter-form">
       <h2>{mode === 'login' ? 'Log In' : 'Sign Up'}</h2>
+
+     {/* {mode === 'login' && (
+  <p className="form-instructions">
+    Please log in with your email and password. If you don’t have an account yet, click "Sign Up" below.
+  </p>
+)}*/}
 
       <input
         type="email"
