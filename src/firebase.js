@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth'; //
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -11,6 +12,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+const auth = getAuth(app); // ✅ Add this line
 
-export { storage, ref, uploadBytes, getDownloadURL };
+export { storage, ref, uploadBytes, getDownloadURL, auth }; // ✅ Export auth
