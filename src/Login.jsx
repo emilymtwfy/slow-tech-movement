@@ -26,14 +26,21 @@ const Login = ({ onLogin }) => {
   };
 
   return (
+  <div
+    className="login-background"
+    style={{
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}
+  >
     <form onSubmit={handleSubmit} className="letter-form">
-      <h2>{mode === 'login' ? 'Log In' : 'Sign Up'}</h2>
-
-     {/* {mode === 'login' && (
-  <p className="form-instructions">
-    Please log in with your email and password. If you don’t have an account yet, click "Sign Up" below.
-  </p>
-)}*/}
+      <h2>
+        {mode === 'login'
+          ? 'Log in to send your handwritten letters'
+          : 'Sign up to start sending your handwritten letters'}
+      </h2>
 
       <input
         type="email"
@@ -53,7 +60,7 @@ const Login = ({ onLogin }) => {
 
       <button type="submit">{mode === 'login' ? 'Log In' : 'Create Account'}</button>
 
-      <p style={{ marginTop: '1rem' }}>
+      <p className="toggle-mode" style={{ marginTop: '1rem' }}>
         {mode === 'login' ? (
           <>
             Don't have an account?{' '}
@@ -73,7 +80,9 @@ const Login = ({ onLogin }) => {
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
-  );
+  </div>
+);
+
 };
 
 export default Login;
