@@ -74,6 +74,16 @@
   pointer-events: none;
 }
 
+.auth-bg {
+    background: none; /* remove flying-envelopes.gif */
+  min-height: 100vh;
+  padding-top: 2rem;
+  padding-right: 20rem;
+  padding-left: 20rem;
+  position: relative;
+}
+
+
 @keyframes floatEnvelopes {
   0% {
     transform: translate(0, 0);
