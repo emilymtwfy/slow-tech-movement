@@ -24,33 +24,42 @@ const LetterForm = () => {
   };
 
   return (
-    
-<form onSubmit={handleSubmit} className="letter-form">
-  <input
-    type="file"
-    accept="image/*"
-    onChange={(e) => setFile(e.target.files[0])}
-    required
-  />
-  {file && <p>Selected file: {file.name}</p>}
+  <div
+    className="letterform-wrapper"
+    style={{
+      minHeight: '80vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'start', // or 'center' if you prefer vertical centering
+    }}
+  >
+    <form onSubmit={handleSubmit} className="letter-form">
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setFile(e.target.files[0])}
+        required
+      />
+      {file && <p>Selected file: {file.name}</p>}
 
-  <input
-    type="email"
-    placeholder="Recipient Email"
-    value={recipient}
-    onChange={(e) => setRecipient(e.target.value)}
-    required
-  />
-  <textarea
-    placeholder="Optional message"
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-  />
-  <button type="submit">Send Letter</button>
-  <p>{status}</p>
-</form>
+      <input
+        type="email"
+        placeholder="Recipient Email"
+        value={recipient}
+        onChange={(e) => setRecipient(e.target.value)}
+        required
+      />
+      <textarea
+        placeholder="Optional message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button type="submit">Send Letter</button>
+      <p>{status}</p>
+    </form>
+  </div>
+);
 
-  );
 };
 
 export default LetterForm;

@@ -3,6 +3,7 @@ import LetterForm from './components/LetterForm.jsx';
 import Login from './Login.jsx';
 import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import './App.css';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,12 +34,16 @@ function App() {
   };
 
   if (!user) {
-    return <Login onLogin={() => setUser(auth.currentUser)} />;
+    return (
+      <div className="unauth-bg">
+        <Login onLogin={() => setUser(auth.currentUser)} />
+      </div>
+    );
   }
 
   return (
-    <div className="App" style={{ backgroundColor: 'white', minHeight: '100vh', padding: '2rem' }}>
-      <h1>Send a Handwritten Letter</h1>
+    <div className="auth-bg">
+      {/*<h1>Send a Handwritten Letter</h1>*/}
 
       <button
         onClick={handleLogout}

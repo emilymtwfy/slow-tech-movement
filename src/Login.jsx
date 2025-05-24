@@ -29,7 +29,7 @@ const Login = ({ onLogin }) => {
   <div
     className="login-background"
     style={{
-      minHeight: '100vh',
+      minHeight: '50vh',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

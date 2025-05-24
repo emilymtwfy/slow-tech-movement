@@ -36,6 +36,8 @@ body {
   position: relative;
 }
 
+/*NOTE: 5/24/25 EHR moved to App.css to handle the background animation, so we can distinguish backgrounds between the login page and the letter form. 
+This is basically tech debt and should be deleted at some time.
 body::before {
   content: "";
   position: absolute;
@@ -46,7 +48,7 @@ body::before {
   background-image: url('/envelope.png');
   background-repeat: repeat;
   background-size: 80px 80px;
-  opacity: .7; /* Temporarily make them fully visible */
+  opacity: .7; /* Temporarily make them fully visible 
   animation: floatEnvelopes 30s linear infinite;
   z-index: 0;
   pointer-events: none;
@@ -60,7 +62,7 @@ body::before {
   100% {
     transform: translate(50%, -50%);
   }
-}
+}*/
 
 
 h1 {
