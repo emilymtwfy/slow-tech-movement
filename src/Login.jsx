@@ -35,7 +35,7 @@ const Login = ({ onLogin }) => {
       alignItems: 'center',
     }}
   >
-    <form onSubmit={handleSubmit} className="letter-form">
+    <form onSubmit={handleSubmit} className="login-form">
       <h2>
         {mode === 'login'
           ? 'Log in to send your handwritten letters'
