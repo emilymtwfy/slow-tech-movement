@@ -52,7 +52,7 @@ function App() {
           top: '1rem',
           right: '1rem',
           padding: '0.5rem 1rem',
-          backgroundColor: '#ccc',
+          backgroundColor: 'black',
           border: 'none',
           borderRadius: '4px',
           cursor: 'pointer',

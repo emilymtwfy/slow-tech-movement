@@ -75,9 +75,9 @@
 }
 
 .auth-bg {
-    background: none; /* remove flying-envelopes.gif */
+  background: none; /* remove flying-envelopes.gif */
   min-height: 100vh;
-  padding-top: 2rem;
+  padding-top: 5rem;
   padding-right: 20rem;
   padding-left: 20rem;
   position: relative;

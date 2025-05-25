@@ -24,13 +24,16 @@ const LetterForm = () => {
   };
 
   return (
+  
+  
   <div
     className="letterform-wrapper"
     style={{
-      minHeight: '80vh',
+      minHeight: '40vh',
+      minWidth: '70vh',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'start', // or 'center' if you prefer vertical centering
+      alignItems: 'center', // or 'center' if you prefer vertical centering
     }}
   >
     <form onSubmit={handleSubmit} className="letter-form">
