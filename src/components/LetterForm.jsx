@@ -43,7 +43,7 @@ const LetterForm = () => {
         onChange={(e) => setFile(e.target.files[0])}
         required
       />
-      {file && <p>Selected file: {file.name}</p>}
+{/* EHR 5/24: removing this for now - doesn't seem necessary     {file && <p>Selected file: {file.name}</p>}*/}
 
       <input
         type="email"
@@ -52,11 +52,32 @@ const LetterForm = () => {
         onChange={(e) => setRecipient(e.target.value)}
         required
       />
+
+<p style={{ marginBottom: '.5rem' }}>Choose a suggested message:</p>
+<div className="message-options">
+  {[
+    "Handwritten letters are a mix of fast and slow technology. It takes longer to compose a handwritten letter, but it can be well worth the extra time and care it takes to write one. This handwritten letter was created and sent with care via the Slow Tech Movement.",
+    "Sending a handwritten letter is a small act of presence in a busy world. I hope this message brings a pause, a smile, or a moment of connection.",
+    "This letter comes from a place of thoughtfulness. May it reach you warmly, and may it remind you that intentional words still travel meaningfully through both paper and pixels."
+  ].map((msg, index) => (
+    <button
+      key={index}
+      type="button"
+      onClick={() => setMessage(msg)}
+      className="suggested-message-button"
+    >
+      {msg}
+    </button>
+  ))}
+</div>
+
       <textarea
-        placeholder="Optional message"
+        placeholder="Handwritten letters are a mix of fast and slow technology. It takes longer to compose a handwritten letter, but it can be well worth the extra time and care it takes to write one. This handwritten letter was created and sent with care via the Slow Tech Movement."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
+
+
       <button type="submit">Send Letter</button>
       <p>{status}</p>
     </form>

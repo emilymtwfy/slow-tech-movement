@@ -13,11 +13,11 @@ exports.handler = async (event) => {
     });
 
     const result = await resend.emails.send({
-      from: 'letters@slowtechmovement.com',
+      from: 'HandwrittenLetters@slowtechmovement.com',
       to: recipientEmail,
       subject: 'You have received a handwritten letter',
       html: `
-        <h2>This letter was sent with care.</h2>
+        <h2>Optional Message</h2>
         <p>${message}</p>
         <img src="${imageUrl}" alt="Handwritten Letter" style="max-width:100%;" />
       `,
