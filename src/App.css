@@ -78,9 +78,10 @@
   background: none; /* remove flying-envelopes.gif */
   min-height: 100vh;
   padding-top: 5rem;
-  padding-right: 10rem;
-  padding-left: 10rem;
+
   position: relative;
+   display: flex;
+  justify-content: flex-start; /* aligns children to the left */
 }
 
 

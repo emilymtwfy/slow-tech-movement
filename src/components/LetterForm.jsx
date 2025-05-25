@@ -32,9 +32,9 @@ const LetterForm = () => {
       minHeight: '40vh',
       minWidth: '70vh',
       display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center', // or 'center' if you prefer vertical centering
+      alignItems: 'flex-start', // or 'center' if you prefer vertical centering
     }}
+ 
   >
     <form onSubmit={handleSubmit} className="letter-form">
       <input
