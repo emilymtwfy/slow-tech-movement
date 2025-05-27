@@ -4,7 +4,7 @@
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(73, 194, 85, 0.87);
-  background-color: #242424b1;
+  background-color: #EFEED6;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -12,7 +12,13 @@
     position: relative;
   z-index: 1;
 }
-
+/* GLOBAL SCROLL FIX */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  max-width: 100%;
+}
 a {
   font-weight: 500;
   color: #265405;
@@ -26,7 +32,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: rgb(239, 238, 214);
+  background-color: #EFEED6;
   min-height: 100vh;
   
   display: flex;
@@ -99,7 +105,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #EFEED6;
   }
   a:hover {
     color: #747bff;

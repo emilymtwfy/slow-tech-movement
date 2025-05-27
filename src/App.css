@@ -72,6 +72,7 @@
   animation: floatEnvelopes 30s linear infinite;
   z-index: 0;
   pointer-events: none;
+
 }
 
 .auth-bg {

@@ -25,70 +25,55 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div
-      className="login-background"
-      style={{
-        minHeight: '50vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2 style={{color: '#006400'}}>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2 className="login-heading">
           {mode === 'login'
             ? 'Log in to send your handwritten letters'
             : 'Sign up to start sending your handwritten letters'}
         </h2>
 
-        {/* Image + Inputs side by side */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-          {/*<img
-            src="/heart-envelope.png"
-            alt="Envelope sealed with a heart"
-            style={{ width: '60px', height: 'auto' }}
-          />*/}
-          <div style={{ flexGrow: 1 }}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{ marginBottom: '0.5rem' }}
-            />
+        <input
+          className="login-input"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-        </div>
+        <input
+          className="login-input"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-        <button type="submit">{mode === 'login' ? 'Log In' : 'Create Account'}</button>
+        {error && <p className="login-error">{error}</p>}
 
-        <p className="toggle-mode" style={{ marginTop: '1rem' }}>
+        <button className="login-button" type="submit">
+          {mode === 'login' ? 'Log In' : 'Create Account'}
+        </button>
+
+        <p className="toggle-mode">
           {mode === 'login' ? (
             <>
-              Don't have an account?{' '}
-              <button type="button" onClick={() => setMode('signup')}>
+              Don’t have an account?{' '}
+              <span onClick={() => setMode('signup')} className="toggle-link">
                 Sign Up
-              </button>
+              </span>
             </>
           ) : (
             <>
               Already have an account?{' '}
-              <button type="button" onClick={() => setMode('login')}>
+              <span onClick={() => setMode('login')} className="toggle-link">
                 Log In
-              </button>
+              </span>
             </>
           )}
         </p>
-
-        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
     </div>
   );
