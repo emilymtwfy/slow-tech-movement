@@ -35,7 +35,7 @@ const Login = ({ onLogin }) => {
       }}
     >
       <form onSubmit={handleSubmit} className="login-form">
-        <h2>
+        <h2 style={{color: '#006400'}}>
           {mode === 'login'
             ? 'Log in to send your handwritten letters'
             : 'Sign up to start sending your handwritten letters'}
