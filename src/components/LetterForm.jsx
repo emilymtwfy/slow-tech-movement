@@ -27,15 +27,8 @@ const LetterForm = () => {
   
   
   <div
-    className="letterform-wrapper"
-    style={{
-      minHeight: '40vh',
-      minWidth: '70vh',
-      display: 'flex',
-      alignItems: 'flex-start', // or 'center' if you prefer vertical centering
-    }}
- 
-  >
+    className="letterform-container">
+    
     <form onSubmit={handleSubmit} className="letter-form">
       <input
         type="file"

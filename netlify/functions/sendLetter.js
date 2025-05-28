@@ -17,7 +17,7 @@ exports.handler = async (event) => {
       to: recipientEmail,
       subject: 'You have received a handwritten letter',
       html: `
-        <h2>Optional Message</h2>
+       <!--<h2>/Optional Message</h2>*/-->
         <p>${message}</p>
         <img src="${imageUrl}" alt="Handwritten Letter" style="max-width:100%;" />
       `,
