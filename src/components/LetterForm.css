@@ -118,6 +118,33 @@ width: 100%;
 .letter-form .suggested-message-button:hover {
   background-color: #f18d23;
 }
+/*next two blocks are about coloring the Send Letter button while the letter is sending */
+.letterform-container button[type="submit"]:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: default;
+  pointer-events: none;
+}
+
+
+button {
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.letterform-container button[type="submit"]:disabled {
+  cursor: default;
+  background-color: #ccc;
+  color: #666;
+  opacity: 0.7;
+}
+
+
+/* Prevent hover styles when button is disabled */
+.letterform-container button[type="submit"]:disabled:hover {
+  background-color: #ccc;
+  color: #666;
+}
+
 
 
 
@@ -187,3 +214,4 @@ color:rgb(3, 3, 3);
     font-size: 1rem;
   }
 }
+

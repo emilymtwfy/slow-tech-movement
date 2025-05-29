@@ -1,27 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './LetterForm.css';
 import { storage, ref, uploadBytes, getDownloadURL } from '../firebase';
 import { sendLetter } from '../resend';
+
 
 const LetterForm = () => {
   const [file, setFile] = useState(null);
   const [recipient, setRecipient] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(false);
+const handleReset = () => {
+  setFile(null);
+  setRecipient('');
+  setMessage('');
+  setStatus('');
+  setLoading(false);
+    if (fileInputRef.current) {
+    fileInputRef.current.value = null;}
+};
+const fileInputRef = useRef(null);
+
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!file) return;
+  e.preventDefault();
+  if (!file) return;
 
-    setStatus('Uploading letter...');
-    const fileRef = ref(storage, `letters/${file.name}`);
-    await uploadBytes(fileRef, file);
-    const url = await getDownloadURL(fileRef);
+  setLoading(true); // ← ADD THIS
 
-    setStatus('Sending email...');
-    const res = await sendLetter({ imageUrl: url, recipientEmail: recipient, message });
-    setStatus(res.success ? 'Sent!' : 'Failed to send');
-  };
+  setStatus('Uploading letter...');
+  const fileRef = ref(storage, `letters/${file.name}`);
+  await uploadBytes(fileRef, file);
+  const url = await getDownloadURL(fileRef);
+
+  setStatus('Sending email...');
+  const res = await sendLetter({ imageUrl: url, recipientEmail: recipient, message });
+  setStatus(res.success ? 'Sent!' : 'Failed to send');
+
+  setLoading(false); // ← AND THIS
+};
+
 
   return (
   
@@ -33,8 +51,11 @@ const LetterForm = () => {
       <input
         type="file"
         accept="image/*"
+        ref={fileInputRef}
         onChange={(e) => setFile(e.target.files[0])}
         required
+        disabled={loading}
+
       />
 {/* EHR 5/24: removing this for now - doesn't seem necessary     {file && <p>Selected file: {file.name}</p>}*/}
 
@@ -71,8 +92,21 @@ const LetterForm = () => {
       />
 
 
-      <button type="submit">Send Letter</button>
-      <p>{status}</p>
+      <button type="submit" disabled={loading || status === 'Sent!'}>
+  {loading
+    ? (status.includes('Uploading') ? 'Uploading...' :
+       status.includes('Sending') ? 'Sending...' : 'Sending...')
+    : (status === 'Sent!' ? 'Sent!' : 'Send Letter')}
+</button>
+
+{status === 'Sent!' && (
+  <button type="button" onClick={handleReset}>
+    Send another letter
+  </button>
+)}
+
+
+     {/* <p>{status}</p>  EHR: This seems repetitive if we are putting it in the button above. */}
     </form>
   </div>
 );
