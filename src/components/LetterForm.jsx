@@ -65,6 +65,8 @@ const fileInputRef = useRef(null);
         value={recipient}
         onChange={(e) => setRecipient(e.target.value)}
         required
+        disabled={status === 'Uploading letter...' || status === 'Sending email...' || status === 'Sent!'}
+
       />
 
 <p style={{ marginBottom: '.5rem' }}>Choose a suggested message:</p>
@@ -89,6 +91,8 @@ const fileInputRef = useRef(null);
         placeholder="Handwritten letters are a mix of fast and slow technology. It takes longer to compose a handwritten letter, but it can be well worth the extra time and care it takes to write one. This handwritten letter was created and sent with care via the Slow Tech Movement."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        disabled={status === 'Uploading letter...' || status === 'Sending email...' || status === 'Sent!'}
+
       />
 
 

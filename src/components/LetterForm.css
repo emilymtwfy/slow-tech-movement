@@ -145,6 +145,13 @@ button {
   color: #666;
 }
 
+.letterform-container input:disabled,
+.letterform-container textarea:disabled {
+  cursor: default;
+  background-color: #ccc;
+  color: #666;
+  opacity: 0.7;
+}
 
 
 
