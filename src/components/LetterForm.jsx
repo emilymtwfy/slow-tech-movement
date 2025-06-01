@@ -54,7 +54,7 @@ const fileInputRef = useRef(null);
         ref={fileInputRef}
         onChange={(e) => setFile(e.target.files[0])}
         required
-        disabled={loading || status === 'Uploading letter...' || status === 'Sending email...' || status === 'Sent!'}
+        disabled={status === 'Uploading letter...' || status === 'Sending email...' || status === 'Sent!'}
 
       />
 {/* EHR 5/24: removing this for now - doesn't seem necessary     {file && <p>Selected file: {file.name}</p>}*/}
