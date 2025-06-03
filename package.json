@@ -1,0 +1,23 @@
+{
+  "name": "slow-tech-movement",
+  "version": "1.0.0",
+  "main": "eslint.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emilymtwfy/slow-tech-movement.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emilymtwfy/slow-tech-movement/issues"
+  },
+  "homepage": "https://github.com/emilymtwfy/slow-tech-movement#readme",
+  "description": "",
+  "dependencies": {
+    "resend": "^4.5.1"
+  }
+}
