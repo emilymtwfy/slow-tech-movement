@@ -2,7 +2,7 @@
   base = "handwrittenletters"
   command = "npm run build"
   publish = "dist"
-  functions = "../netlify/functions"
+  functions = "netlify/functions"
 
 [dev]
   framework = "vite"
