@@ -1,68 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import LetterForm from './components/LetterForm.jsx';
-import Login from './Login.jsx';
-import { auth } from './firebase';
+// src/App.jsx
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import './App.css';
+import { auth } from './firebase';
 
-function App() {
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard'; // replace with your actual protected page
+import useAutoLogout from './hooks/useAutoLogout'; // you'll create this next
+
+function AppRoutes() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useAutoLogout(); // 💡 this handles the 2-hour logout and signOut(auth)
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        localStorage.setItem('lastLoginTime', Date.now().toString());
-        startAutoLogoutTimer();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+
+      if (user) {
+        navigate('/dashboard');
+      } else {
+        navigate('/login');
       }
     });
+
     return () => unsubscribe();
-  }, []);
+  }, [navigate]);
 
-  const startAutoLogoutTimer = () => {
-    setTimeout(() => {
-      const lastLogin = parseInt(localStorage.getItem('lastLoginTime'), 10);
-      const now = Date.now();
-      if (now - lastLogin >= 30 * 60 * 1000) {
-        signOut(auth);
-      }
-    }, 30 * 60 * 1000);
-  };
-
-  const handleLogout = () => {
-    signOut(auth);
-  };
-
-  if (!user) {
-    return (
-      <div className="unauth-bg">
-        <Login onLogin={() => setUser(auth.currentUser)} />
-      </div>
-    );
-  }
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="auth-bg">
-      {/*<h1>Send a Handwritten Letter</h1>*/}
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/dashboard"
+        element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+      />
+      <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
+    </Routes>
+  );
+}
 
-      <button
-        onClick={handleLogout}
-        style={{
-          position: 'absolute',
-          top: '1rem',
-          right: '1rem',
-          padding: '0.5rem 1rem',
-          backgroundColor: 'black',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        Log Out
-      </button>
-
-      <LetterForm />
-    </div>
+function App() {
+  return (
+    <Router>
+      <AppRoutes />
+    </Router>
   );
 }
 
