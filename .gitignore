@@ -29,3 +29,4 @@ dist-ssr
 # Local Netlify folder
 .netlify
 email-handler/.env.save
+email-handler/.env.save
