@@ -4,22 +4,22 @@ const resend = new Resend(process.env.VITE_RESEND_API_KEY);
 
 exports.handler = async (event) => {
   try {
-    const { imageUrl, recipientEmail, message } = JSON.parse(event.body);
+    const { imageUrls, recipientEmail, message } = JSON.parse(event.body);
 
     console.log("Email send request received:", {
-      imageUrl,
+      imageUrls,
       recipientEmail,
       message,
     });
 
-    // Log image URL to verify
-    console.log("Image URL being sent in email:", imageUrl);
+    const imagesHtml = imageUrls.map((url, i) => `
+      <p style="margin-top: 20px; text-align: center;">
+        <strong style="display: block; font-size: 14px; color: #cccccc;">Page ${i + 1}</strong>
+        <img src="${url}" alt="Letter Page ${i + 1}" style="max-width: 100%; border: 4px solid #e2d3b3; border-radius: 4px;" />
+      </p>
+    `).join('');
 
-    const result = await resend.emails.send({
-      from: 'HandwrittenLetters@slowtechmovement.com',
-      to: recipientEmail,
-      subject: 'You have received a handwritten letter',
-      html: `
+    const htmlContent = `
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #000000; padding: 40px 0;">
   <tr>
     <td align="center">
@@ -29,9 +29,7 @@ exports.handler = async (event) => {
           <td style="padding: 30px;">
             <h2 style="margin-top: 0; font-size: 24px; color: #f4e9d8;">You've received a handwritten letter</h2>
             ${message ? `<p style="font-size: 16px; line-height: 1.5; color: #dddddd;">${message}</p>` : ''}
-            <p style="margin-top: 20px; text-align: center;">
-              <img src="${imageUrl}" alt="Handwritten Letter" style="max-width: 100%; border: 4px solid #e2d3b3; border-radius: 4px;" />
-            </p>
+            ${imagesHtml}
             <p style="margin-top: 30px; font-size: 14px; color: #888888;">Sent with care via <em>Slow Tech Movement</em></p>
           </td>
         </tr>
@@ -39,7 +37,13 @@ exports.handler = async (event) => {
     </td>
   </tr>
 </table>
-      `,
+    `;
+
+    const result = await resend.emails.send({
+      from: 'HandwrittenLetters@slowtechmovement.com',
+      to: recipientEmail,
+      subject: 'You have received a handwritten letter',
+      html: htmlContent,
     });
 
     console.log("Resend response:", result);

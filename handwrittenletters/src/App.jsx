@@ -11,26 +11,44 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
       if (currentUser) {
-        localStorage.setItem('lastLoginTime', Date.now().toString());
-        startAutoLogoutTimer();
+        const existingTimestamp = localStorage.getItem('loginTimestamp');
+        if (!existingTimestamp) {
+          localStorage.setItem('loginTimestamp', Date.now().toString());
+        }
+      } else {
+        localStorage.removeItem('loginTimestamp');
       }
     });
+
     return () => unsubscribe();
   }, []);
 
-  const startAutoLogoutTimer = () => {
-    setTimeout(() => {
-      const lastLogin = parseInt(localStorage.getItem('lastLoginTime'), 10);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const loginTimestamp = parseInt(localStorage.getItem('loginTimestamp'), 10);
       const now = Date.now();
-      if (now - lastLogin >= 30 * 60 * 1000) {
-        signOut(auth);
+      const maxSession = 30 * 60 * 1000; // 30 minutes
+
+      if (loginTimestamp && now - loginTimestamp > maxSession) {
+        signOut(auth)
+          .then(() => {
+            localStorage.removeItem('loginTimestamp');
+            console.log('Auto-logged out after 2 hours');
+          })
+          .catch((error) => console.error('Auto logout error:', error));
       }
-    }, 30 * 60 * 1000);
-  };
+    }, 5 * 60 * 1000); // Check every 5 minutes
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = () => {
-    signOut(auth);
+    signOut(auth)
+      .then(() => {
+        localStorage.removeItem('loginTimestamp');
+      });
   };
 
   if (!user) {
@@ -43,8 +61,6 @@ function App() {
 
   return (
     <div className="auth-bg">
-      {/*<h1>Send a Handwritten Letter</h1>*/}
-
       <button
         onClick={handleLogout}
         style={{
