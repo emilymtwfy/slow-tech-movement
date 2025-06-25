@@ -15,7 +15,11 @@ exports.handler = async (event) => {
     const imagesHtml = imageUrls.map((url, i) => `
       <p style="margin-top: 20px; text-align: center;">
         <strong style="display: block; font-size: 14px; color: #cccccc;">Page ${i + 1}</strong>
-        <img src="${url}" alt="Letter Page ${i + 1}" style="max-width: 100%; border: 4px solid #e2d3b3; border-radius: 4px;" />
+<img 
+  src="${url}" 
+  alt="Letter Page ${i + 1}" 
+  style="max-width: 300px; width: 100%; height: auto; border: 4px solid #e2d3b3; border-radius: 4px;" 
+/>
       </p>
     `).join('');
 
@@ -48,15 +52,14 @@ exports.handler = async (event) => {
 
     console.log("Resend response:", result);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ success: true }),
-    };
-  } catch (err) {
-    console.error("Function error:", err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ success: false, error: err.message }),
-    };
-  }
+   } catch (err) {
+  console.error("Function error stack:", err.stack);
+  console.error("Function error message:", err.message);
+
+  return {
+    statusCode: 500,
+    body: JSON.stringify({ success: false, error: err.message }),
+  };
+}
+
 };

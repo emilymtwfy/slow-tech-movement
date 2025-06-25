@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { ReactSortable } from "react-sortablejs";
 import './LetterForm.css';
 import { storage, ref, uploadBytes, getDownloadURL } from '../firebase';
 import { sendLetter } from '../resend';
@@ -25,10 +26,14 @@ const LetterForm = () => {
   };
 
   const handleFileChange = (e) => {
-    const selectedFiles = Array.from(e.target.files);
-    setFiles(selectedFiles);
-    setFileOrder(selectedFiles.map((_, i) => i)); // default order
-  };
+  const selectedFiles = Array.from(e.target.files);
+  const newFiles = selectedFiles.map((file, index) => ({
+    id: `${file.name}-${index}`, // unique ID for SortableJS
+    file,
+  }));
+  setFiles(newFiles);
+};
+
 
   const handleOrderChange = (index, newPosition) => {
     const newOrder = [...fileOrder];
@@ -36,32 +41,28 @@ const LetterForm = () => {
     setFileOrder(newOrder);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (files.length === 0) return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (files.length === 0) return;
 
-    setLoading(true);
-    setStatus('Uploading letter...');
+  setLoading(true);
+  setStatus('Uploading letter...');
 
-    const orderedFiles = fileOrder
-      .map((pos, i) => ({ pos, file: files[i] }))
-      .sort((a, b) => a.pos - b.pos)
-      .map((entry) => entry.file);
+  const uploadPromises = files.map((file, index) => {
+    const fileName = `${Date.now()}_page-${index + 1}_${file.name}`;
+    const storageRef = ref(storage, `letters/${fileName}`);
+    return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
+  });
 
-    const uploadPromises = orderedFiles.map((file, index) => {
-      const fileName = `${Date.now()}_page-${index + 1}_${file.name}`;
-      const storageRef = ref(storage, `letters/${fileName}`);
-      return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
-    });
+  const imageUrls = await Promise.all(uploadPromises);
 
-    const imageUrls = await Promise.all(uploadPromises);
+  setStatus('Sending email...');
+  const res = await sendLetter({ imageUrls, recipientEmail: recipient, message });
+  setStatus(res.success ? 'Sent!' : 'Failed to send');
 
-    setStatus('Sending email...');
-    const res = await sendLetter({ imageUrls, recipientEmail: recipient, message });
-    setStatus(res.success ? 'Sent!' : 'Failed to send');
+  setLoading(false);
+};
 
-    setLoading(false);
-  };
 
   return (
     <div className="letterform-container">
@@ -76,25 +77,31 @@ const LetterForm = () => {
           disabled={status === 'Uploading letter...' || status === 'Sending email...' || status === 'Sent!'}
         />
 
-        {files.length > 1 && (
-          <div className="preview-pages">
-            <p style={{ marginTop: '1rem' }}><strong>Order your pages:</strong></p>
-            {files.map((file, i) => (
-              <div key={i} className="page-preview-item">
-                <img src={URL.createObjectURL(file)} alt={`Page ${i + 1}`} className="thumbnail-preview" />
-                <select
-                  value={fileOrder[i]}
-                  onChange={(e) => handleOrderChange(i, e.target.value)}
-                  disabled={loading}
-                >
-                  {files.map((_, j) => (
-                    <option key={j} value={j}>{j + 1}</option>
-                  ))}
-                </select>
-              </div>
-            ))}
-          </div>
-        )}
+
+{files.length > 1 && (
+  <div className="preview-pages">
+    <p style={{ marginTop: '1rem' }}><strong>Reorder your pages:</strong></p>
+    <ReactSortable
+      list={files}
+      setList={setFiles}
+      animation={200}
+      className="sortable-list"
+    >
+      {files.map(({ id, file }, i) => (
+        <div key={id} className="page-preview-item">
+          <img
+            src={URL.createObjectURL(file)}
+            alt={`Page ${i + 1}`}
+            className="thumbnail-preview"
+            style={{ maxWidth: '150px', marginBottom: '0.5rem' }}
+          />
+          <p>Page {i + 1}</p>
+        </div>
+      ))}
+    </ReactSortable>
+  </div>
+)}
+
 
         <input
           type="email"
