@@ -48,11 +48,12 @@ const handleSubmit = async (e) => {
   setLoading(true);
   setStatus('Uploading letter...');
 
-  const uploadPromises = files.map((file, index) => {
-    const fileName = `${Date.now()}_page-${index + 1}_${file.name}`;
-    const storageRef = ref(storage, `letters/${fileName}`);
-    return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
-  });
+ const uploadPromises = files.map(({ file }, index) => {
+  const fileName = `${Date.now()}_page-${index + 1}_${file.name}`;
+  const storageRef = ref(storage, `letters/${fileName}`);
+  return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
+});
+
 
   const imageUrls = await Promise.all(uploadPromises);
 
@@ -62,6 +63,7 @@ const handleSubmit = async (e) => {
 
   setLoading(false);
 };
+console.log("Files to upload:", files);
 
 
   return (
